@@ -1,11 +1,10 @@
 ## Simulation Branch
 
-This branch runs the **`simulation`** model across every combination of the specified ranges and saves all results to a single `.mat` file.
+This branch sweeps through every range combination in the **`simulation`** model and stores the results in a single `.mat` file.
 
-### Why and How
 | Aspect | Details |
 |--------|---------|
-| **Parallel execution** | Uses the MATLAB **Parallel Computing Toolbox** to launch simulations concurrently, significantly shortening run-time. |
-| **Output size** | The `.mat` file grows quickly—about **2.5 GB** for ~10 000 combinations. Monitor your disk space. |
-| **Variable-step solver** | **Do not change the variable-step setting** in the model. It keeps the time vectors as short as possible, preventing unnecessary bloat. |
-| **Post-processing** | The subsequent *Signal Analysis* branch will handle resampling, so you don’t need to force a fixed time step here. |
+| **Parallel execution** | Leverages the MATLAB **Parallel Computing Toolbox** to run simulations concurrently, reducing total run-time. |
+| **MAT-file limit** | The output file grows fast—≈ 2.5 GB for ~10 000 combinations—and can approach MATLAB’s maximum MAT-file size (normally 2–4 GB depending on version/format). Keep an eye on this limit. |
+| **Variable-step solver** | **Do not change the variable-step setting.** It keeps time vectors minimal, avoiding unnecessary data bloat. |
+| **Post-processing** | The *Signal Analysis* branch will take care of resampling, so a fixed time step is unnecessary here. |
