@@ -12,8 +12,8 @@ This folder contains every function required to analyse the model outputs.
    * Mean Absolute Error (MAE)
 3. **Aggregate results**  
    * The main script averages the outputs and saves three files:  
-     * `Kt.mat` – stiffness gains  
-     * `Bt.mat` – damping gains  
-     * `K_B.mat` – combined stiffness-damping table
+     * `Kt.mat` – stiffness gains, variable  
+     * `Bt.mat` – damping gains, variable  
+     * `K_B.mat` – stiffnes and damping constant value.
 
 > For full implementation details, see the inline comments in each `.m` file.
