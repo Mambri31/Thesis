@@ -44,5 +44,5 @@ qkdotdot=timeseries(qk1dotdot',t);
 
 rangeK=6000:10:7000;
 rangeB=[1,10:10:1000];
-out=sim1_creator('modello_finale_cost_sim',rangeK,rangeB,coef,qh,qk,qhdot,qkdot);
+out=sim1_creator('simulation_model',rangeK,rangeB,coef,qh,qk,qhdot,qkdot);
 
