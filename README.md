@@ -7,7 +7,7 @@ This folder contains every function required to analyse the model outputs.
    * Computes both constant gains and time-varying gains.
 2. **Evaluate performance** using:  
    * Tolerance-within-range method  
-   * Root Mean Square (RMS)  
+   * Root Mean Square error (RMSE)  
    * Cross-correlation  
    * Mean Absolute Error (MAE)
 3. **Aggregate results**  
