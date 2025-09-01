@@ -2,20 +2,34 @@
 
 function best=signalTOL_analyzer(qh,qk,rangeK,rangeB,tolerance,t_phase,cycle_duration)
 
-error_matrix_qh=cell_error_maker(qh,qk,rangeK,rangeB,1,t_phase,cycle_duration);
-error_matrix_qk=cell_error_maker(qh,qk,rangeK,rangeB,0,t_phase,cycle_duration);
 
-points=zeros(size(error_matrix_qh,1),size(error_matrix_qh,2));
+qh=cellfun(@rad2deg,qh,'UniformOutput',false);
+qk=cellfun(@rad2deg,qk,'UniformOutput',false);
 
-error_matrix_qh=cellfun(@rad2deg,error_matrix_qh,'UniformOutput',false);
-error_matrix_qk=cellfun(@rad2deg,error_matrix_qk,'UniformOutput',false);
+nb=length(rangeB);
+nk=length(rangeK);
+
+points=zeros(nb,nk);
 
 
+h_offset=29.1;
+k_offset=24.127;
+gen_Traj=mov_exo(cycle_duration,h_offset,k_offset);
 
-for k=1:size(error_matrix_qk,2)
-    for b=1:size(error_matrix_qh,1)
-        vec1=error_matrix_qh{b,k};
-        vec2=error_matrix_qk{b,k};
+
+for k=1:nk
+    for b=1:nb
+        
+        qhi=qh{b,k};
+        qki=qk{b,k};
+        t=linspace(t_phase(1),t_phase(2),length(qhi));
+      
+        qh_ref=gen_Traj.get_hip_angle(t)';
+        qk_ref=gen_Traj.get_knee_angle(t)';
+        
+        vec1=qh_ref-qhi;
+        vec2=qk_ref-qki;
+
         indx1=find(vec1(:)<=max(tolerance) & vec1(:)>=min(tolerance));
         indx2=find(vec2(:)<=max(tolerance) & vec2(:)>=min(tolerance));
         points(b,k)=(length(indx1)+0.5*length(indx2))/(length(vec2)+length(vec1))*100;
