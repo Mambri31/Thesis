@@ -42,7 +42,7 @@ qkdot=timeseries(qk1dot',t);
 qhdotdot=timeseries(qh1dotdot',t);
 qkdotdot=timeseries(qk1dotdot',t);
 
-rangeK=6000:10:7000;
+rangeK=4000:10:5000;
 rangeB=[1,10:10:1000];
 out=sim1_creator('simulation_model',rangeK,rangeB,coef,qh,qk,qhdot,qkdot);
 
