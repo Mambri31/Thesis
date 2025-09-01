@@ -5,25 +5,33 @@ function best=signalMAE_analyzer(qh,qk,rangeK,rangeB,t_phase,cycle_duration)
 nb=length(rangeB);
 nk=length(rangeK);
 
-error_matrix_qh=cell_error_maker(qh,qk,rangeK,rangeB,1,t_phase,cycle_duration);
-error_matrix_qk=cell_error_maker(qh,qk,rangeK,rangeB,0,t_phase,cycle_duration);
+MAE=zeros(nb,nk);
 
+h_offset=29.1;
+k_offset=24.127;
+gen_Traj=mov_exo(cycle_duration,h_offset,k_offset);
 
-error_matrix_qh=cellfun(@rad2deg,error_matrix_qh,'UniformOutput',false);
-error_matrix_qk=cellfun(@rad2deg,error_matrix_qk,'UniformOutput',false);
-
-meanError=zeros(nb,nk);
 
 for k=1:nk
-for b=1:nb
-      meanError_qh=mean(abs(error_matrix_qh{b,k}));
-      meanError_qk=mean(abs(error_matrix_qk{b,k}));
-      meanError(b,k)=meanError_qh+0.5*meanError_qk;
-end
+      for b=1:nb
+        qhi=qh{b,k};
+        qki=qk{b,k};
+        t=linspace(t_phase(1),t_phase(2),length(qhi));
+      
+        qh_ref=gen_Traj.get_hip_angle(t)';
+        qk_ref=gen_Traj.get_knee_angle(t)';
+        
+        
+        % Find the RMS
+        mae_qh=mean(abs(qh_ref(:)-qhi(:)));
+        mae_qk=mean(abs(qk_ref(:)-qki(:)));
+        
+        MAE(b,k)=mae_qh+0.5*mae_qk;
+      end
 end
 
-[~,idx]=min(meanError(:));
-[bestB,bestK]=ind2sub(size(meanError),idx);
+[~,idx]=min(MAE(:));
+[bestB,bestK]=ind2sub(size(MAE),idx);
 
 
 best=struct();
